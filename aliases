@@ -19,6 +19,9 @@ alias web="cd /var/www/html"
 alias phpdir="cd /etc/php/*.*/apache2"
 alias includes="cd /home/includes"
 
+# View Apache error log
+alias log="sudo tail /var/log/apache2/error.log"
+
 # Start, stop, restart, reload, enable & check status of service
 alias enable="sudo systemctl enable $1"
 alias start="sudo systemctl start $1"
