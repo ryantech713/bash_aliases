@@ -13,6 +13,12 @@ alias update="sudo apt update && sudo apt upgrade -y'
 # Install shortcut
 alias install="sudo apt install $1 -y"
 
+# Useful directory shortcuts
+alias vhosts="cd /etc/apache2/sites-available"
+alias web="cd /var/www/html"
+alias phpdir="cd /etc/php/*.*/apache2"
+alias includes="cd /home/includes"
+
 # Start, stop, restart, reload, enable & check status of service
 alias enable="sudo systemctl enable $1"
 alias start="sudo systemctl start $1"
