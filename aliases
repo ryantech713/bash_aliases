@@ -1,0 +1,79 @@
+#==================================#
+# .bash_aliases
+#==================================#
+# Sudo
+alias s="sudo"
+
+# Clear screen
+alias c="clear"
+
+# Update and upgrade
+alias update="sudo apt update && sudo apt upgrade -y'
+
+# Install shortcut
+alias install="sudo apt install $1 -y"
+
+# Start, stop, restart, reload, enable & check status of service
+alias enable="sudo systemctl enable $1"
+alias start="sudo systemctl start $1"
+alias restart="sudo systemctl restart $1"
+alias reload="sudo systemctl reload $1"
+alias status="sudo systemctl status $1"
+alias stop="sudo systemctl stop $1"
+
+# Create a password with specified length
+alias passgen="openssl rand -base64 $1"
+
+# See which apps are listening on what port
+alias listening='lsof -iTCP -sTCP:LISTEN -n -P +c0'
+
+# Change the PS1 prompt
+PS1='\[\e[92m\]\u\[\e[38;5;51m\]@\[\e[0m\]\h\[\e[38;5;44m\][\[\e[38;5;51m\]\w\[\e[92m\]]\[\e[0m\]>:'
+
+#==================================#
+# functions
+#==================================#
+# Extract any archive file
+function extract() {
+    if [ -f "$1" ]; then
+        case "$1" in
+            *.tar.bz2) tar xjf "$1" ;;
+            *.tar.gz) tar xzf "$1" ;;
+            *.tar.xz) tar xf "$1" ;;
+            *.bz2) bunzip2 "$1" ;;
+            *.gz) gunzip "$1" ;;
+            *.zip) unzip "$1" ;;
+            *.rar) unrar x "$1" ;;
+            *) echo "Unsupported file format" ;;
+        esac
+    else
+        echo "File does not exist!"
+    fi
+}
+# Search recursively for a string in file
+function search() {
+    grep -rnw "$1" -e "$2"
+}
+# Create file backup with timestamp
+function backup() {
+    cp "$1" "$1.bak.$(date +%F_%T)"
+}
+# Check disk usage
+function disk_usage() {
+    du -sh "$1" 2>/dev/null || echo "Directory not found!"
+}
+# Get a cheatsheet for any bash command
+function cheat(){
+    curl cheat.sh/"$1"
+    if [[ $? -ne 0 ]]; then
+        echo -e "\e[1;31mError: Could not find the specified cheat sheet!\e[0m"
+    sleep 3
+    exit 1
+    fi
+}
+# Log Error template for $LOGFILE
+function log_error(){
+    local message="$1"
+    local timestamp=$(date +"%Y-%m-%d %H:%M:%S")
+    echo "[ERROR] [$timestamp] $message" >> "$LOGFILE"
+}
